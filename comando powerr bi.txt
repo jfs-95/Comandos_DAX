@@ -1,0 +1,139 @@
+### 1. Funções de Agregação
+
+- `SUM`: Soma todos os valores de uma coluna.
+    ```DAX
+    TotalVendas = SUM(Tabela[vendas])
+    ```
+
+- `AVERAGE`: Calcula a média dos valores em uma coluna.
+    ```DAX
+    MediaVendas = AVERAGE(Tabela[vendas])
+    ```
+
+- `COUNT`: Conta o número de valores (não nulos) em uma coluna.
+    ```DAX
+    ContagemClientes = COUNT(Tabela[cliente_id])
+    ```
+
+- `COUNTA`: Conta todos os valores, incluindo valores vazios.
+    ```DAX
+    ContagemTotal = COUNTA(Tabela[coluna])
+    ```
+
+- `DISTINCTCOUNT`: Conta os valores únicos em uma coluna.
+    ```DAX
+    ClientesUnicos = DISTINCTCOUNT(Tabela[cliente_id])
+    ```
+
+---
+
+### 2. Funções de Filtragem
+
+Essas funções ajudam a aplicar filtros específicos ao calcular valores.
+
+- `CALCULATE`: Modifica o contexto de filtro para realizar cálculos com condições específicas.
+    ```DAX
+
+    VendasAmérica = CALCULATE(SUM(Tabela[vendas]), Tabela[regiao] = "América")
+    ```
+
+- `FILTER`: Retorna uma tabela filtrada com base em uma condição.
+    ```DAX
+
+    VendasFiltradas = CALCULATE(SUM(Tabela[vendas]), FILTER(Tabela, Tabela[ano] = 2023))
+    ```
+
+---
+
+### 3. Funções de Tempo e Datas
+
+Essas funções permitem fazer cálculos envolvendo datas e períodos de tempo.
+
+- `TODAY`: Retorna a data de hoje.
+    ```DAX
+    DataAtual = TODAY()
+    ```
+
+- `YEAR`, `MONTH`, `DAY`: Extraem o ano, mês e dia de uma coluna de data.
+    ```DAX
+    AnoVenda = YEAR(Tabela[data_venda])
+    ```
+
+- `DATESYTD`: Retorna todas as datas desde o início do ano até a data atual.
+    ```DAX
+    VendasAnoAtual = CALCULATE(SUM(Tabela[vendas]), DATESYTD(Tabela[data_venda]))
+    ```
+
+---
+
+### 4. Funções de Lógica
+
+Essas funções ajudam a criar condições e verificar valores.
+
+- `IF`: Cria uma condição lógica.
+    ```DAX
+    VendasAlta = IF(Tabela[vendas] > 1000, "Alta", "Baixa")
+    ```
+
+- `AND` / `OR`: Combina condições.
+    ```DAX
+    VendasRegiao = IF(AND(Tabela[regiao] = "América", Tabela[vendas] > 1000), "Alta", "Baixa")
+    ```
+
+---
+
+### 5. Funções de Texto
+
+Essas funções permitem manipular e formatar textos.
+
+- `CONCATENATE`: Junta dois textos.
+    ```DAX
+    NomeCompleto = CONCATENATE(Tabela[nome], " " & Tabela[sobrenome])
+    ```
+
+- `LEFT`, `RIGHT`: Extrai uma quantidade de caracteres da esquerda ou direita.
+    ```DAX
+    PrimeirasLetras = LEFT(Tabela[nome], 3)
+    ```
+
+- `SEARCH`: Encontra a posição de uma substring.
+    ```DAX
+    Posicao = SEARCH("ABC", Tabela[codigo])
+    ```
+
+---
+
+### 6. Funções de Contexto de Linha e Tabela
+
+Essas funções são usadas para navegar no contexto da tabela.
+
+- `RELATED`: Retorna o valor de uma coluna de uma tabela relacionada.
+    ```DAX
+    VendasProduto = RELATED(TabelaProdutos[preco])
+    ```
+
+- `RELATEDTABLE`: Retorna uma tabela de uma tabela relacionada.
+    ```DAX
+    ProdutosVendidos = COUNTROWS(RELATEDTABLE(TabelaVendas))
+    ```
+
+- `ALL`: Remove todos os filtros de uma coluna ou tabela.
+    ```DAX
+    VendasTotal = CALCULATE(SUM(Tabela[vendas]), ALL(Tabela[regiao]))
+    ```
+
+---
+
+### 7. Funções de Iteração
+
+As funções de iteração realizam cálculos linha por linha.
+
+- `SUMX`, `AVERAGEX`, `COUNTX`: Iteram em uma tabela e calculam a soma, média ou contagem.
+    ```DAX
+    SomaVendasCalculada = SUMX(Tabela, Tabela[quantidade] * Tabela[preco])
+    ```
+
+- `MAXX`, `MINX`: Iteram em uma tabela e retornam o valor máximo ou mínimo de uma expressão.
+    ```DAX
+    MaiorDesconto = MAXX(TabelaDescontos, TabelaDescontos[desconto])
+    ```
